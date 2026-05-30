@@ -1,0 +1,11 @@
+.env
+token.json
+*.mp4
+*.mp3
+*.jpg
+*.png
+__pycache__/
+*.pyc
+*.pyo
+tmp/
+.DS_Store
