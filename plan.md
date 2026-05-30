@@ -37,20 +37,37 @@ A fully automated, faceless YouTube Shorts channel targeting kids aged 3–8 who
 
 ---
 
-## Production Pipeline (Fully AI)
+## Automated Build Pipeline (Claude-built system)
 
 ```
-Idea → Script (ChatGPT) → Images (Midjourney/DALL-E) → Voiceover (ElevenLabs)
-     → Music (Suno/Udio) → Assembly (CapCut/Runway) → Captions (auto) → Upload
+Cron (2x/day on Railway)
+    → Claude API        — generates nursery rhyme script + scene-by-scene breakdown
+    → DALL-E 3          — generates one image per scene (1080x1920 vertical)
+    → ElevenLabs        — English voiceover, kids-friendly voice
+    → MoviePy           — assembles images + audio + burned-in captions into MP4
+    → YouTube Data API  — uploads with title, tags, Made for Kids flag set
 ```
 
-**Time per video:** ~30–45 min once workflow is templated  
-**Cost per video:** ~$0.50–$2 with AI subscriptions
+**Cost per video:** ~$0.10–$0.30 in API calls (pay-per-use, no SaaS subscriptions)  
+**Runs:** fully unattended, 2x per day automatically  
+**Reusable for:** any faceless YouTube niche — swap the prompt, same system
+
+### APIs Needed to Start
+| Service | What it does | Get key at |
+|---------|-------------|------------|
+| Anthropic | Script generation | console.anthropic.com |
+| OpenAI | DALL-E 3 images | platform.openai.com |
+| ElevenLabs | Kids voiceover | elevenlabs.io |
+| Google / YouTube | Auto-upload | console.cloud.google.com |
+
+### Hosting
+- **Railway** — runs the Python pipeline on a cron schedule (2x/day)
+- GitHub auto-deploy from `youtube1` repo
 
 ---
 
 ## Upload Strategy
-- 2–3 Shorts per day minimum
+- 2–3 Shorts per day (automated, no manual work)
 - Best upload times: 6–9am, 12–2pm, 6–9pm (parent-managed iPad time)
 - Titles: simple, searchable — "A B C for Kids | Alphabet Song Shorts"
 - Tags: #kidsshorts #abcforkids #toddlerlearning #preschool #funforkids
@@ -58,10 +75,21 @@ Idea → Script (ChatGPT) → Images (Midjourney/DALL-E) → Voiceover (ElevenLa
 ---
 
 ## Monetization Path
-1. **YouTube Shorts Fund / AdSense** — once 1k subs + 4k watch hours (or 10M Shorts views)
+1. **YouTube Shorts AdSense** — once 500 subs + 3M Shorts views in 90 days
 2. **Merch** — printable flashcards, coloring pages (Gumroad)
 3. **Affiliate** — kids apps, educational toys (Amazon Associates)
 4. **Sponsorships** — kids app developers pay well for kid-audience channels
+5. **Licensing** — sell video packs to other kids channels
+
+### Realistic Earnings Timeline
+| Stage | Views/month | Est. Revenue |
+|-------|------------|--------------|
+| Starting out | 0–100k | $0 |
+| Growing | 500k–1M | $50–$200 |
+| Established | 5M–10M | $500–$2,000 |
+| Big channel | 50M+ | $5,000–$20,000+ |
+
+Note: kids CPM is low ($1–$3) due to COPPA — volume and merch are the real play.
 
 ---
 
@@ -77,13 +105,13 @@ Idea → Script (ChatGPT) → Images (Midjourney/DALL-E) → Voiceover (ElevenLa
 
 | Task | Tool |
 |------|------|
-| Script | ChatGPT |
-| Images / Animation | Midjourney, DALL-E 3, Runway Gen-3 |
-| Voiceover | ElevenLabs (kids-friendly voice) |
-| Music | Suno AI |
-| Editing / Assembly | CapCut (free, mobile-friendly) |
-| Captions | CapCut auto-captions |
-| Scheduling | YouTube Studio |
+| Script | Claude API (Anthropic) |
+| Images | DALL-E 3 (OpenAI) |
+| Voiceover | ElevenLabs |
+| Video assembly | MoviePy (Python) |
+| Captions | Burned-in via MoviePy |
+| Scheduling | Railway cron |
+| Upload | YouTube Data API v3 |
 
 ---
 
