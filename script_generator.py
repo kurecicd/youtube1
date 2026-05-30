@@ -11,11 +11,13 @@ def generate_script() -> dict:
 
     prompt = f"""Generate a 2-3 minute kids nursery rhyme YouTube video script about: {theme}
 
-The two main characters are brothers:
-- TOBIAS — the younger brother, cute and curious, big blue eyes, red t-shirt
-- SAMUEL — the older brother, taller, protective and brave, leads the way
+The main characters are a real family, drawn in Pixar cartoon style:
+- TOBIAS — the younger brother (toddler), tiny and round-faced, bright blonde hair, big blue eyes, chubby cheeks, always curious and giggly
+- SAMUEL — the older brother (around 7 years old), taller and energetic, blonde hair, brave and playful, loves to lead adventures
+- DAD — tall, dark hair, friendly beard, warm and funny
+- MUM — dark hair, glasses, kind and loving smile
 
-The brothers go on a fun adventure together related to the theme. They discover things, meet animals or friends, and learn something simple. Samuel sometimes teaches Tobias, Tobias sometimes surprises Samuel.
+Tobias and Samuel are always in every scene. Dad and Mum appear occasionally to join the fun or cheer the boys on.
 
 Return ONLY valid JSON with this exact structure:
 {{
@@ -27,7 +29,7 @@ Return ONLY valid JSON with this exact structure:
   "scenes": [
     {{
       "id": 1,
-      "image_prompt": "Detailed DALL-E prompt: bright Pixar-style cartoon, Tobias (younger boy, big blue eyes, red t-shirt) and Samuel (older taller boy, brave) together in specific scene, vibrant colors, NO text in image, kids friendly, vertical composition",
+      "image_prompt": "Detailed DALL-E prompt: bright Pixar-style cartoon, Tobias (tiny toddler, bright blonde hair, big blue eyes, chubby cheeks) and Samuel (older boy ~7yrs, taller, blonde hair, energetic) together in specific scene. Dad (tall, dark hair, beard) or Mum (dark hair, glasses, kind smile) may appear. Vibrant colors, NO text in image, kids friendly, vertical 9:16 composition",
       "caption": "Short screen caption max 6 words"
     }}
   ]
