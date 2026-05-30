@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
+FAL_API_KEY = os.environ["FAL_API_KEY"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 ELEVENLABS_API_KEY = os.environ["ELEVENLABS_API_KEY"]
 YOUTUBE_CHANNEL_ID = os.environ["YOUTUBE_CHANNEL_ID"]

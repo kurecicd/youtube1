@@ -1,6 +1,7 @@
 import os
+import numpy as np
 from PIL import Image, ImageDraw, ImageFont
-from moviepy import ImageClip, AudioFileClip, concatenate_videoclips, vfx
+from moviepy import VideoFileClip, AudioFileClip, ImageClip, CompositeVideoClip, concatenate_videoclips
 
 FONT_PATHS = [
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
@@ -8,9 +9,9 @@ FONT_PATHS = [
     "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
     "C:/Windows/Fonts/arialbd.ttf",
 ]
-FONT_SIZE = 72
-TEXT_COLOR = (255, 255, 255)
-SHADOW_COLOR = (0, 0, 0)
+FONT_SIZE = 64
+TEXT_COLOR = (255, 255, 255, 255)
+SHADOW_COLOR = (0, 0, 0, 255)
 TEXT_Y_RATIO = 0.83
 
 
@@ -23,13 +24,13 @@ def _get_font():
     return ImageFont.load_default()
 
 
-def _add_caption(img: Image.Image, caption: str) -> Image.Image:
+def _caption_overlay(clip, caption: str):
     if not caption:
-        return img
-    result = img.copy()
-    draw = ImageDraw.Draw(result)
+        return clip
+    w, h = clip.size
+    overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(overlay)
     font = _get_font()
-    w, h = result.size
     bbox = draw.textbbox((0, 0), caption, font=font)
     text_w = bbox[2] - bbox[0]
     x = (w - text_w) // 2
@@ -37,24 +38,21 @@ def _add_caption(img: Image.Image, caption: str) -> Image.Image:
     for dx, dy in [(-2, -2), (2, -2), (-2, 2), (2, 2)]:
         draw.text((x + dx, y + dy), caption, font=font, fill=SHADOW_COLOR)
     draw.text((x, y), caption, font=font, fill=TEXT_COLOR)
-    return result
+    arr = np.array(overlay)
+    overlay_clip = ImageClip(arr, duration=clip.duration)
+    return CompositeVideoClip([clip, overlay_clip])
 
 
-def assemble_video(images: list, audio_bytes: bytes, tmp_dir: str) -> str:
+def assemble_video(video_clips: list, audio_bytes: bytes, tmp_dir: str) -> str:
     audio_path = os.path.join(tmp_dir, "voiceover.mp3")
     with open(audio_path, "wb") as f:
         f.write(audio_bytes)
-
     audio_clip = AudioFileClip(audio_path)
-    duration_per_scene = audio_clip.duration / len(images)
 
     clips = []
-    for i, (img, caption) in enumerate(images):
-        img_captioned = _add_caption(img, caption)
-        img_path = os.path.join(tmp_dir, f"scene_{i}.jpg")
-        img_captioned.save(img_path, quality=95)
-        clip = ImageClip(img_path, duration=duration_per_scene)
-        clip = clip.with_effects([vfx.FadeIn(0.5), vfx.FadeOut(0.5)])
+    for path, caption in video_clips:
+        clip = VideoFileClip(path).resized((1080, 1920))
+        clip = _caption_overlay(clip, caption)
         clips.append(clip)
 
     video = concatenate_videoclips(clips, method="compose").with_audio(audio_clip)
