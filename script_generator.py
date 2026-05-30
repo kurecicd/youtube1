@@ -29,14 +29,14 @@ Return ONLY valid JSON with this exact structure:
   "scenes": [
     {{
       "id": 1,
-      "image_prompt": "Detailed DALL-E prompt: bright Pixar-style cartoon, Tobias (tiny toddler, bright blonde hair, big blue eyes, chubby cheeks) and Samuel (older boy ~7yrs, taller, blonde hair, energetic) together in specific scene. Dad (tall, dark hair, beard) or Mum (dark hair, glasses, kind smile) may appear. Vibrant colors, NO text in image, kids friendly, vertical 9:16 composition",
+      "image_prompt": "Scene-specific description only (characters are auto-included). Describe: setting, action, mood, background, lighting. Example: 'Sunny farm yard with red barn, Tobias pointing excitedly at a cow, Samuel laughing beside him, warm golden light'",
       "caption": "Short screen caption max 6 words"
     }}
   ]
 }}
 
 Requirements:
-- Exactly 14 scenes
+- Exactly 10 scenes
 - Both Tobias and Samuel must appear in every scene image prompt
 - Happy positive content only, no scary elements
 - Simple repetitive language toddlers love
@@ -45,8 +45,14 @@ Requirements:
 
     message = client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=2000,
+        max_tokens=4096,
         messages=[{"role": "user", "content": prompt}],
     )
 
-    return json.loads(message.content[0].text)
+    text = message.content[0].text.strip()
+    if text.startswith("```"):
+        text = text.split("```", 2)[1]
+        if text.startswith("json"):
+            text = text[4:]
+        text = text.rsplit("```", 1)[0]
+    return json.loads(text.strip())

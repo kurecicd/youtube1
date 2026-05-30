@@ -13,6 +13,14 @@ YOUTUBE_TOKEN = os.environ.get("YOUTUBE_TOKEN_JSON", "")
 
 ELEVENLABS_VOICE_ID = "21m00Tcm4TlvDq8ikWAM"  # Rachel — warm, clear narration
 
+# Locked character descriptions — derived from reference images in assets/
+CHARACTER_DESC = """Characters (always draw in Pixar/Disney 3D cartoon style, consistent look every scene):
+- TOBIAS: tiny chubby toddler ~2yrs, short platinum-blonde hair, huge bright blue eyes, very round chubby cheeks, small button nose, blue hoodie, grey pants. Always looks happy and curious.
+- SAMUEL: boy ~7yrs, much taller than Tobias, golden-blonde hair, confident smile, red t-shirt, dark shorts. Arms often crossed or gesturing. Brave and energetic.
+- DAD (occasional): tall man, short brown hair, friendly beard, rust/orange t-shirt, jeans. Warm smile.
+- MUM (occasional): woman, short dark hair, round glasses, green cardigan, jeans. Kind loving expression.
+All characters share the same bright Pixar 3D animation style. No text or labels in image."""
+
 THEMES = [
     "farm animals making sounds on a sunny day",
     "the alphabet with colorful cartoon characters",

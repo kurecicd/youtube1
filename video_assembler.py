@@ -1,12 +1,12 @@
 import os
 from PIL import Image, ImageDraw, ImageFont
-from moviepy.editor import ImageClip, AudioFileClip, concatenate_videoclips
+from moviepy import ImageClip, AudioFileClip, concatenate_videoclips, vfx
 
 FONT_PATHS = [
-    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",  # Linux / Railway
-    "/Library/Fonts/Arial Bold.ttf",                          # Mac
-    "/System/Library/Fonts/Supplemental/Arial Bold.ttf",      # Mac alt
-    "C:/Windows/Fonts/arialbd.ttf",                           # Windows
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+    "/Library/Fonts/Arial Bold.ttf",
+    "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+    "C:/Windows/Fonts/arialbd.ttf",
 ]
 FONT_SIZE = 72
 TEXT_COLOR = (255, 255, 255)
@@ -53,16 +53,17 @@ def assemble_video(images: list, audio_bytes: bytes, tmp_dir: str) -> str:
         img_captioned = _add_caption(img, caption)
         img_path = os.path.join(tmp_dir, f"scene_{i}.jpg")
         img_captioned.save(img_path, quality=95)
-        clips.append(ImageClip(img_path, duration=duration_per_scene))
+        clip = ImageClip(img_path, duration=duration_per_scene)
+        clip = clip.with_effects([vfx.FadeIn(0.5), vfx.FadeOut(0.5)])
+        clips.append(clip)
 
-    video = concatenate_videoclips(clips, method="compose").set_audio(audio_clip)
+    video = concatenate_videoclips(clips, method="compose").with_audio(audio_clip)
     output_path = os.path.join(tmp_dir, "output.mp4")
     video.write_videofile(
         output_path,
         fps=24,
         codec="libx264",
         audio_codec="aac",
-        verbose=False,
         logger=None,
     )
     return output_path
