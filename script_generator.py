@@ -9,29 +9,33 @@ client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
 def generate_script() -> dict:
     theme = random.choice(config.THEMES)
 
-    prompt = f"""Generate a 1-minute kids nursery rhyme YouTube Short script about: {theme}
+    prompt = f"""Generate a 2-3 minute kids nursery rhyme YouTube video script about: {theme}
+
+The main character is TOBIAS — a cute, curious cartoon boy with big blue eyes and a red t-shirt.
+Tobias goes on a fun adventure related to the theme. He discovers things, meets animals or friends, and learns something simple.
 
 Return ONLY valid JSON with this exact structure:
 {{
-  "title": "Short catchy YouTube title max 60 chars",
-  "description": "YouTube description 2-3 sentences include hashtags #kidsshorts #nurseryhymes #toddlerlearning",
-  "tags": ["nursery rhyme", "kids", "toddler", "shorts", "educational"],
+  "title": "Short catchy YouTube title max 60 chars featuring Tobias",
+  "description": "YouTube description 2-3 sentences include hashtags #kidsshorts #nurseryhymes #toddlerlearning #tobias",
+  "tags": ["nursery rhyme", "kids", "toddler", "Tobias", "educational", "cartoon"],
   "theme": "{theme}",
-  "voiceover": "Complete voiceover text, rhythmic and fun, 130-160 words, simple language for ages 2-6",
+  "voiceover": "Complete voiceover text, rhythmic and fun, 300-350 words, simple language for ages 2-6. Tobias is always the hero. Use his name often.",
   "scenes": [
     {{
       "id": 1,
-      "image_prompt": "Detailed DALL-E prompt: bright Pixar-style cartoon, specific scene description, vibrant colors, NO text in image, kids friendly, vertical composition",
+      "image_prompt": "Detailed DALL-E prompt: bright Pixar-style cartoon, Tobias (cute boy, big blue eyes, red t-shirt) in specific scene, vibrant colors, NO text in image, kids friendly, vertical composition",
       "caption": "Short screen caption max 6 words"
     }}
   ]
 }}
 
 Requirements:
-- Exactly 7 scenes
+- Exactly 14 scenes
+- Tobias must appear in every scene image prompt
 - Happy positive content only, no scary elements
 - Simple repetitive language toddlers love
-- Each image_prompt must specify bright Pixar cartoon style, vivid colors, no text
+- Each image_prompt must specify Tobias and bright Pixar cartoon style, vivid colors, no text
 - Return ONLY the JSON, no other text"""
 
     message = client.messages.create(
