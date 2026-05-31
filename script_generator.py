@@ -35,18 +35,28 @@ CHARACTERS (Pixar 3D cartoon style, same look in every scene):
 - DAD — tall, brown hair, friendly beard, orange t-shirt. Appears in 1-2 scenes max.
 - MUM — dark hair, round glasses, green cardigan. Appears in 1-2 scenes max.
 
-Write EXACTLY 8 CONNECTED SCENES that form ONE continuous story in {location}.
+Write EXACTLY 18 CONNECTED SCENES that form ONE continuous 3-minute story in {location}.
 Every scene must be a clear continuation of the previous scene. They must feel like frames of the SAME story.
 
-REQUIRED STORY STRUCTURE:
-Scene 1 (ARRIVAL): Tobias and Samuel arrive at {location}, pointing and laughing with excitement
-Scene 2 (EXPLORE): They explore and point at something amazing they discover
-Scene 3 (DISCOVER): They find something special — an animal, a treasure, a friend
-Scene 4 (PLAY): They have great fun together with what they found
-Scene 5 (PROBLEM): Something small goes wrong — Tobias trips, drops something, gets stuck, or is scared
-Scene 6 (HELP): Samuel or Mum/Dad rush in and help solve the problem, Tobias is safe
-Scene 7 (CELEBRATE): Everything is wonderful, both boys jump and cheer together
-Scene 8 (FAREWELL): Happy goodbye wave, heading home, both boys look back smiling
+REQUIRED STORY STRUCTURE (18 scenes):
+Scene 1  (INTRO):      Tobias and Samuel get ready to go, excited faces, putting on shoes/coats
+Scene 2  (ARRIVAL):    They arrive at {location}, eyes wide, pointing at everything
+Scene 3  (FIRST LOOK): Walking in slowly, looking around in amazement
+Scene 4  (EXPLORE 1):  They discover something interesting — an animal, object, or place
+Scene 5  (EXPLORE 2):  They get closer, Tobias reaches out cautiously
+Scene 6  (DISCOVER):   They find something special — a baby animal, hidden spot, or surprise
+Scene 7  (EXCITEMENT): Both boys react with pure joy, jumping and laughing
+Scene 8  (PLAY 1):     They start playing — running, chasing, climbing, splashing
+Scene 9  (PLAY 2):     Samuel shows Tobias how to do something new
+Scene 10 (PLAY 3):     Tobias tries it himself, wobbly but brave
+Scene 11 (PLAY 4):     They play together in perfect harmony, wide smiles
+Scene 12 (PROBLEM):    Something goes wrong — Tobias slips, drops something, or gets scared
+Scene 13 (WORSE):      Tobias looks upset, small tears, needs help
+Scene 14 (HELP):       Samuel or Mum/Dad rushes over, arms out, coming to rescue
+Scene 15 (RESCUE):     Problem is solved, Tobias looks relieved and grateful
+Scene 16 (CELEBRATE):  Both boys hug and cheer, jumping with happiness
+Scene 17 (WIND DOWN):  They sit together happily, tired but content, sharing a snack or rest
+Scene 18 (FAREWELL):   Big waves goodbye, heading home hand in hand, both looking back smiling
 
 Return ONLY valid JSON with this exact structure:
 {{
@@ -58,7 +68,7 @@ Return ONLY valid JSON with this exact structure:
   "scenes": [
     {{
       "id": 1,
-      "story_beat": "arrival",
+      "story_beat": "intro",
       "image_prompt": "Bright Pixar 3D cartoon. {location}. Tobias (tiny chubby toddler, platinum-blonde hair, blue hoodie) and Samuel (taller boy, golden hair, red t-shirt) [describe EXACTLY what both boys are doing in this specific scene, continuing the story naturally from the previous scene]. Vivid saturated colours, warm soft lighting, joyful mood. No text in image.",
       "caption": "short caption, max 5 words"
     }}
@@ -74,7 +84,7 @@ CRITICAL RULES:
 
     message = client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=4096,
+        max_tokens=8192,
         messages=[{"role": "user", "content": prompt}],
     )
 

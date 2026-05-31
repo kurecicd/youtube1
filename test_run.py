@@ -34,7 +34,7 @@ def run():
         video_clips = generate_video_clips(images, tmp_dir)
 
         log.info("Step 4/4: Generating music + assembling video...")
-        total_duration = len(video_clips) * 5
+        total_duration = len(video_clips) * 10
         music_bytes = generate_music(script["music_prompt"], total_duration)
         video_path = assemble_video_clips(video_clips, music_bytes, tmp_dir)
         shutil.copy(video_path, OUTPUT_PATH)

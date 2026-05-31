@@ -33,7 +33,7 @@ def _animate_image(args: tuple) -> tuple:
         arguments={
             "image_url": data_url,
             "prompt": motion_prompt,
-            "duration": "5",
+            "duration": "10",
             "aspect_ratio": "9:16",
         },
     )
